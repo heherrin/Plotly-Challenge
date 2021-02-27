@@ -15,7 +15,14 @@ d3.json("data/samples.json").then((bbdata) => {
  });
  console.log(otu_ids);
  console.log(otu_labels);
- console.log(otu_sample_values)
-});
+ console.log(otu_sample_values);
 
+ // Slice arrays for plotting
+ sliced_OTU_IDs = otu_ids.slice(0,10);
+ sliced_OTU_Labels = otu_labels.slice(0,10);
+ sliced_OTU_Sample_Values = otu_sample_values.slice(0,10);
+ console.log(sliced_OTU_IDs);
+ console.log(sliced_OTU_Labels);
+ console.log(sliced_OTU_Sample_Values);
 
+})
