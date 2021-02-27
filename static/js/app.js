@@ -25,4 +25,25 @@ d3.json("data/samples.json").then((bbdata) => {
  console.log(sliced_OTU_Labels);
  console.log(sliced_OTU_Sample_Values);
 
+ // trace
+ var trace1 = {
+    x: sliced_OTU_Sample_Values,
+    y: sliced_OTU_IDs,
+    text: sliced_OTU_Sample_Values,
+    type: "bar",
+    orientation: "h"
+    };
+    //data
+    var barData = [trace1];
+    //layout
+    var layout = {
+        margin: {
+            l:100,
+            r:100,
+            t:100,
+            b:100
+        }
+    };
+   Plotly.newPlot("bar", barData, layout) 
+
 })
