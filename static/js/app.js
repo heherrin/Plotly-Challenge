@@ -30,9 +30,10 @@ d3.json("data/samples.json").then((bbdata) => {
     var yvalues = [];
     var labelvalues = [];
 
-    otu_labels.forEach(array => {
+    otu_ids.forEach(array => {
         var slice = array.slice(0, 10);
-        yvalues.push(slice);
+        var OTU_id = slice.map(d => "OTU " + d) 
+        yvalues.push(OTU_id);
     });
 
     otu_sample_values.forEach(array => {
@@ -43,6 +44,8 @@ d3.json("data/samples.json").then((bbdata) => {
     otu_labels.forEach(array => {
         var slice = array.slice(0, 10);
         labelvalues.push(slice);
+
+           
     });
 
     //console log to check
@@ -53,25 +56,26 @@ d3.json("data/samples.json").then((bbdata) => {
 
     //write trace for plot
 
-    // trace
-    var trace1 = {
-        x: xvalues[0].reverse(),
-        y: yvalues[0].reverse(),
-        text: labelvalues.reverse(),
-        type: "bar",
-        orientation: "h"
+    function init() {
+        var trace1 = {
+            x: xvalues[0].reverse(),
+            y: yvalues[0].reverse(),
+            text: labelvalues[0].reverse(),
+            type: "bar",
+            orientation: "h"
+        };
+        //data
+        var barData = [trace1];
+        //layout
+        var layout = {
+            margin: {
+                l: 100,
+                r: 100,
+                t: 100,
+                b: 100
+            }
+        };
+        Plotly.newPlot("bar", barData, layout)
     };
-    //data
-    var barData = [trace1];
-    //layout
-    var layout = {
-        margin: {
-            l: 100,
-            r: 100,
-            t: 100,
-            b: 100
-        }
-    };
-    Plotly.newPlot("bar", barData, layout)
-
+    init()
 })
