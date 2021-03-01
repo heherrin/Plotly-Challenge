@@ -24,7 +24,6 @@ d3.json("data/samples.json").then((bbdata) => {
         dropdownMenu.append("option").text(name);
     });
 
-
     //create data points & slice data for top 10
     var xvalues = [];
     var yvalues = [];
@@ -33,7 +32,7 @@ d3.json("data/samples.json").then((bbdata) => {
     otu_ids.forEach(array => {
         var slice = array.slice(0, 10);
         //creare text format for OTU ids
-        var OTU_id = slice.map(d => "OTU " + d) 
+        var OTU_id = slice.map(d => "OTU " + d)
         yvalues.push(OTU_id);
     });
 
@@ -46,7 +45,7 @@ d3.json("data/samples.json").then((bbdata) => {
         var slice = array.slice(0, 10);
         labelvalues.push(slice);
 
-           
+
     });
 
     //console log to check
@@ -79,16 +78,52 @@ d3.json("data/samples.json").then((bbdata) => {
         Plotly.newPlot("bar", barData, layout);
 
         // Write trace for the bubble plot
-        trace2 =  {
-            x: otu_ids,
-            y: otu_sample_values,
-            text: otu_labels,
+        trace2 = {
+            x: otu_ids[0],
+            y: otu_sample_values[0],
+            text: otu_labels[0],
             mode: 'markers',
             marker: {
-                size: otu_sample_values,
-                color: otu_ids
+                size: otu_sample_values[0],
+                color: otu_ids[0]
             }
         };
+
+        //write layout for bubble plot
+        var bubbleLayout = {
+            height: 600,
+            width: 1200,
+            title: "Belly Button Biodiversity"
+        };
+        //define name of trace2
+        var bubbleData = trace2;
+
+        //create bubble plot
+        Plotly.newPlot("bubble", bubbleData, bubbleLayout);
+
+        //show OTU sample metadata
+        var keys = Object.keys(bbdata.metadata[0]);
+        var values = Object.values(bbdata.metadata[0])
+        var metadata = d3.select('#sample-metadata');
+        metadata.html("");
+        for (var i = 0; i < keys.length; i++) {
+            metadata.append("p").text(`${keys[i]}: ${values[i]}`);
+        };
+    }
+
+    // Call drop down menu on change
+    dropdownMenu.on("change", updataOTUData);
+    //Change data if Dropdown menu changed
+    function updataOTUData() {
+        var dataset = dropdownMenu.property("value");
+        for (var i = 0; i < bbdata.names.length; i++) {
+            if (dataset === bbdata.names[i]) {
+                init(i);
+                return
+            }
+            
+        };
+        
     }
     init()
 })
