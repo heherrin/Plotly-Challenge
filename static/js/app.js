@@ -32,6 +32,7 @@ d3.json("data/samples.json").then((bbdata) => {
 
     otu_ids.forEach(array => {
         var slice = array.slice(0, 10);
+        //creare text format for OTU ids
         var OTU_id = slice.map(d => "OTU " + d) 
         yvalues.push(OTU_id);
     });
@@ -54,7 +55,7 @@ d3.json("data/samples.json").then((bbdata) => {
     console.log(labelvalues);
 
 
-    //write trace for plot
+    //write trace for bar plot
 
     function init() {
         var trace1 = {
@@ -75,7 +76,19 @@ d3.json("data/samples.json").then((bbdata) => {
                 b: 100
             }
         };
-        Plotly.newPlot("bar", barData, layout)
-    };
+        Plotly.newPlot("bar", barData, layout);
+
+        // Write trace for the bubble plot
+        trace2 =  {
+            x: otu_ids,
+            y: otu_sample_values,
+            text: otu_labels,
+            mode: 'markers',
+            marker: {
+                size: otu_sample_values,
+                color: otu_ids
+            }
+        };
+    }
     init()
 })
